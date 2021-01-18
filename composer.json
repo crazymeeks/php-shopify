@@ -1,0 +1,33 @@
+{
+    "name": "crazymeeks/php-shopify",
+    "description": "PHP API for shopify",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jeff Claud",
+            "email": "jeffclaud17@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Crazymeeks\\": "src/"
+        },
+        "files": [
+            "src/bin/func.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "10.0.x-dev",
+        "mockery/mockery": "1.4.x-dev"
+    },
+    "require": {
+        "ixudra/curl": "dev-master"
+    }
+}
