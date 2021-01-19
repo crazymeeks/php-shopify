@@ -15,32 +15,29 @@ class GetProductCollections extends BaseAction
     /**
      * @implemented
      */
-    public function doAction(ShopifyConfigContextInterface $configContext, ResourceContextInterface $resourceContext, ShopifyApp $app)
+    public function doAction(ShopifyConfigContextInterface $configContext, ShopifyApp $app)
     {
         
-        list($host, $access_token) = $resourceContext->getParams();
-        
-        if (!Str::contains($host, ['https', 'http'])) {
-            $host = "https://" . $host;
-        }
-
-        $parseUrl = parse_url($host);
-        $host = "https://" . (str_replace('www.', '', $parseUrl['host']));
+        $host = $app->getShopUrl();
+        $access_token = $app->getAccessToken();
 
         $this->shouldHaveResourceId($app);
-
-        $endpoint = !empty($this->getEndpoint()) ? $this->getEndpoint() : sprintf('/admin/api/' . $configContext->getVersion() . '/collections/%s/products.json', $app->getResourceId());
         
-        $response = $this->curl->to($endpoint)
+        $endpoint = sprintf('/admin/api/%s/collections/%s/products.json', $configContext->getVersion(), $app->getResourceId());
+
+        $host .= parent::updateEndpoint($app, $endpoint);
+        
+        $response = $this->curl->to($host)
                                ->withHeaders([
                                    'X-Shopify-Access-Token: ' . $access_token
                                ])
+                               ->withResponseHeaders()
                                ->returnResponseObject()
                                ->get();
         
         if (in_array($response->status, [200])) {
             $collection = json_decode($response->content);
-            return $collection->products;
+            return parent::addPaginateLinks($collection, $response);
         }
         return json_decode(json_encode([]));
     }

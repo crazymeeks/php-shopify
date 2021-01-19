@@ -14,9 +14,10 @@ class GetShopAccessToken extends BaseAction
     /**
      * @implemented
      */
-    public function doAction(ShopifyConfigContextInterface $configContext, ResourceContextInterface $resourceContext, ShopifyApp $app)
+    public function doAction(ShopifyConfigContextInterface $configContext, ShopifyApp $app)
     {
-        $query_params = $resourceContext->getParams();
+        $query_params = $app->getData();
+        
         // dd($query_params);
         $hmac = $query_params['hmac'];
 

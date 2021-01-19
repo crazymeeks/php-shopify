@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Crazymeeks\App;
 
+use Crazymeeks\App\Support\Str;
 use Crazymeeks\App\ShopUrl;
 use Crazymeeks\App\Http\Redirect;
 use Crazymeeks\App\Contracts\InstallContextInterface;
-use Crazymeeks\App\Contracts\ResourceContextInterface;
 use Crazymeeks\App\Contracts\ShopifyConfigContextInterface;
 use Crazymeeks\App\Contracts\Resource\ActionInterface as ResourceActionInterface;
 
@@ -24,16 +24,23 @@ class Shopify
 
     private $resource_id = null;
 
+    private $shop_url;
+
+    private $access_token;
+
     /**
      * @var \Crazymeeks\App\Contracts\Resource\ActionInterface
      */
     private $resource_action;
 
+    private $data = null;
+
     /**
-     * Location of our overloaded data
-     * @var array
+     * Per page result of a collections
+     *
+     * @var null|int
      */
-    private $data = [];
+    private $per_page = null;
 
     public function __construct(
         ShopifyConfigContextInterface $configContext,
@@ -71,20 +78,6 @@ class Shopify
         return $response;
     }
 
-    /**
-     * Set what resource use would want to do
-     * 
-     * @param \Crazymeeks\App\Contracts\ResourceContextInterface $context
-     *
-     * @return $this
-     */
-    public function setResource(ResourceContextInterface $context): self
-    {
-
-        $this->resource = $context;
-
-        return $this;
-    }
 
     /**
      * Set resource collection ID.
@@ -125,8 +118,122 @@ class Shopify
         return $this;
     }
 
+    /**
+     * Set shop url
+     *
+     * @param string $shop_url
+     * 
+     * @return $this
+     */
+    public function setShopUrl(string $shop_url): self
+    {
+        $this->shop_url = $shop_url;
+
+        return $this;
+    }
+
+    /**
+     * Paginate result of a collection
+     * 
+     * @param int $per_page
+     *
+     * @return $this
+     */
+    public function setPerPage(int $per_page): self
+    {
+        $this->per_page = $per_page;
+
+        return $this;
+    }
+
+    /**
+     * Get per page
+     *
+     * @return mixed
+     */
+    public function getPerPage()
+    {
+        return $this->per_page;
+    }
+
+    /**
+     * Check if pagination is needed
+     *
+     * @return boolean
+     */
+    public function hasPerPage(): bool
+    {
+        return !is_null($this->per_page);
+    }
+
+    /**
+     * Get shop url
+     *
+     * @return string
+     */
+    public function getShopUrl(): string
+    {
+        $host = $this->shop_url;
+
+        if (!Str::contains($host, ['https', 'http'])) {
+            $host = "https://" . $host;
+        }
+
+        $parseUrl = parse_url($host);
+
+        $host = "https://" . (str_replace('www.', '', $parseUrl['host']));
+
+        return $host;
+    }
+
+    /**
+     * Set shop access token
+     *
+     * @return void
+     */
+    public function setAccessToken(string $token): self
+    {
+        $this->access_token = $token;
+
+        return $this;
+    }
+
+    /**
+     * Get shop access token
+     *
+     * @return string
+     */
+    public function getAccessToken(): string
+    {
+        return $this->access_token;
+    }
+
+    /**
+     * Set data
+     *
+     * @param mixed $value
+     * 
+     * @return self
+     */
+    public function setData($value): self
+    {
+        $this->data = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get data
+     *
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
     public function execute()
     {
-        return $this->resource->execute($this->resource_action, $this->configContext, $this);
+        return $this->resource_action->doAction($this->configContext, $this);
     }
 }

@@ -8,4 +8,9 @@ class CollectionException extends \Exception
     {
         return new static("Collection id is required");
     }
+
+    public static function addProductToCollection($message)
+    {
+        return new static($message);
+    }
 }

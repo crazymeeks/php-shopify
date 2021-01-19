@@ -13,12 +13,11 @@ interface ActionInterface
      * Do action
      *
      * @param \Crazymeeks\App\Contracts\ShopifyConfigContextInterface $configContext
-     * @param \Crazymeeks\App\Contracts\ResourceContextInterface $resourceContext
      * @param \Crazymeeks\App\Shopify $app
      * 
      * @return mixed
      */
-    public function doAction(ShopifyConfigContextInterface $configContext, ResourceContextInterface $resourceContext, ShopifyApp $app);
+    public function doAction(ShopifyConfigContextInterface $configContext, ShopifyApp $app);
 
     /**
      * Set shopify's api endpoint for the action.
