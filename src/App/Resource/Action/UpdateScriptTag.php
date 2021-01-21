@@ -8,7 +8,7 @@ use Crazymeeks\App\Shopify as ShopifyApp;
 use Crazymeeks\App\Resource\Action\BaseAction;
 use Crazymeeks\App\Contracts\ShopifyConfigContextInterface;
 
-class GetCollect extends BaseAction
+class UpdateScriptTag extends BaseAction
 {
 
     /**
@@ -20,27 +20,37 @@ class GetCollect extends BaseAction
         $host = $app->getShopUrl();
 
         $id = $app->getResourceId();
+        $data = $app->getData();
 
-        $endpoint = $id ? sprintf('/admin/api/%s/collects/%s.json', $configContext->getVersion(), $id) : sprintf('/admin/api/%s/collects.json', $configContext->getVersion());
         
+        if (!$id) {
+            throw \Crazymeeks\App\Exceptions\BadRequestException::scriptTagIdIsRequired();
+        }
+
+        $endpoint = sprintf('/admin/api/%s/script_tags/%s.json', $configContext->getVersion(), $id);
+
         $host .= parent::updateEndpoint($app, $endpoint);
 
         $response = $this->curl->to($host)
+                         ->withData([
+                             'script_tag' => [
+                                 'id' => $id,
+                                 'src' => $data
+                             ]
+                         ])
                          ->withHeaders([
                             'X-Shopify-Access-Token: ' . $access_token
                          ])
                          ->withResponseHeaders()
                          ->returnResponseObject()
-                         ->get();
-
-        if ($response->status == 200) {
+                         ->post();
+        if ($response->status == 201) {
             $collection = json_decode($response->content);
+            
             return parent::addPaginateLinks($collection, $response);
         }
 
         return json_decode(json_encode([]));
         
     }
-    
-
 }

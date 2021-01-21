@@ -234,6 +234,11 @@ class Shopify
 
     public function execute()
     {
-        return $this->resource_action->doAction($this->configContext, $this);
+
+        if ($this->getShopUrl()) {
+            return $this->resource_action->doAction($this->configContext, $this);
+        }
+
+        throw \Crazymeeks\App\Exceptions\BadRequestException::requiredShopUrlOrAccessToken();
     }
 }

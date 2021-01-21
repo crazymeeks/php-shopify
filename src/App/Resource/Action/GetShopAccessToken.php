@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Crazymeeks\App\Resource\Action;
 
 use Crazymeeks\App\Shopify as ShopifyApp;
 use Crazymeeks\App\Resource\Action\BaseAction;
-use Crazymeeks\App\Contracts\ResourceContextInterface;
 use Crazymeeks\App\Contracts\ShopifyConfigContextInterface;
 use Crazymeeks\App\Exceptions\ShopAccessTokeRequestException;
 

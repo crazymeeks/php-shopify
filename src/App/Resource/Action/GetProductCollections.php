@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Crazymeeks\App\Resource\Action;
 
-use Crazymeeks\App\Support\Str;
 use Crazymeeks\App\Shopify as ShopifyApp;
 use Crazymeeks\App\Resource\Action\BaseAction;
 use Crazymeeks\App\Exceptions\CollectionException;
-use Crazymeeks\App\Contracts\ResourceContextInterface;
 use Crazymeeks\App\Contracts\ShopifyConfigContextInterface;
 
 class GetProductCollections extends BaseAction

@@ -8,7 +8,7 @@ use Crazymeeks\App\Shopify as ShopifyApp;
 use Crazymeeks\App\Resource\Action\BaseAction;
 use Crazymeeks\App\Contracts\ShopifyConfigContextInterface;
 
-class GetCollect extends BaseAction
+class GetCollection extends BaseAction
 {
 
     /**
@@ -21,7 +21,11 @@ class GetCollect extends BaseAction
 
         $id = $app->getResourceId();
 
-        $endpoint = $id ? sprintf('/admin/api/%s/collects/%s.json', $configContext->getVersion(), $id) : sprintf('/admin/api/%s/collects.json', $configContext->getVersion());
+        if (!$id) {
+            throw \Crazymeeks\App\Exceptions\BadRequestException::collectionIdIsRequired();
+        }
+
+        $endpoint = sprintf('/admin/api/%s/collections/%s.json', $configContext->getVersion(), $id);
         
         $host .= parent::updateEndpoint($app, $endpoint);
 

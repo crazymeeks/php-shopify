@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Crazymeeks\App\Resource\Action;
 
 use Ixudra\Curl\CurlService;
+use Crazymeeks\App\Shopify as ShopifyApp;
 use Crazymeeks\App\Contracts\Resource\ActionInterface;
+use Crazymeeks\App\Contracts\ShopifyConfigContextInterface;
 
 abstract class BaseAction implements ActionInterface
 {
@@ -44,6 +48,8 @@ abstract class BaseAction implements ActionInterface
     {
         return $this->endpoint;
     }
+
+    
 
     /**
      * Add page links to result
