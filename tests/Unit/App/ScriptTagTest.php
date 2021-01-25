@@ -6,15 +6,14 @@ namespace Tests\Unit\App;
 use Crazymeeks\App\Shopify;
 use Ixudra\Curl\CurlService;
 use Crazymeeks\App\Http\Redirect;
-use Crazymeeks\App\Contracts\InstallContextInterface;
-use Crazymeeks\App\Resource\Action\GetSmartCollections;
-use Crazymeeks\App\Contracts\ShopifyConfigContextInterface;
+
 
 
 class ScriptTagTest extends \Tests\TestCase
 {
 
     private $redirect;
+    private $shopify;
 
     public function setUp(): void
     {
@@ -158,5 +157,57 @@ class ScriptTagTest extends \Tests\TestCase
                                   ->setAccessToken('access_token')
                                   ->execute();
         $this->assertObjectHasAttribute('script_tag', $response);
+    }
+
+    public function testDeleteScript()
+    {
+        $this->curl->shouldReceive('to')
+                   ->with(\Mockery::any())
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('withHeaders')
+                   ->with(\Mockery::any())
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('withResponseHeaders')
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('returnResponseObject')
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('delete')
+                   ->andReturn(json_decode(json_encode([
+                       'status' => 200,
+                   ])));
+
+        $response = $this->shopify->setAction(new \Crazymeeks\App\Resource\Action\DeleteScriptTag($this->curl))
+                                  ->setResourceId('596726825')
+                                  ->setShopUrl('test.myshopify.com')
+                                  ->setAccessToken('access_token')
+                                  ->execute();
+        $this->assertTrue($response);
+    }
+
+    public function testCountScript()
+    {
+        $this->curl->shouldReceive('to')
+                   ->with(\Mockery::any())
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('withHeaders')
+                   ->with(\Mockery::any())
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('withResponseHeaders')
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('returnResponseObject')
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('get')
+                   ->andReturn(json_decode(json_encode([
+                       'content' => json_encode([
+                           'count' => 1
+                       ]),
+                       'status' => 200,
+                   ])));
+
+        $response = $this->shopify->setAction(new \Crazymeeks\App\Resource\Action\ScriptTagCount($this->curl))
+                                  ->setShopUrl('test.myshopify.com')
+                                  ->setAccessToken('access_token')
+                                  ->execute();
+        $this->assertEquals(1, $response);
     }
 }

@@ -12,6 +12,11 @@ class BadRequestException extends \Exception
         return new static("Access token or shop url is required.");
     }
 
+    public static function orderIdIsRequired()
+    {
+        return new static("Order id is required.");
+    }
+
     public static function collectionIdIsRequired()
     {
         return new static("Collection id is required.");

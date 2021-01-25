@@ -35,6 +35,22 @@ class Shopify
 
     private $data = null;
 
+    private $status = null;
+
+    /**
+     * Financial status
+     *
+     * @var string
+     */
+    private $fin_status = null;
+
+    /**
+     * Fullfillment status
+     *
+     * @var string
+     */
+    private $ffmt_status = null;
+
     /**
      * Per page result of a collections
      *
@@ -231,6 +247,42 @@ class Shopify
     {
         return $this->data;
     }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setFinancialStatus(string $fin_status): self
+    {
+        $this->fin_status = $fin_status;
+        return $this;
+    }
+
+    public function getFinancialStatus()
+    {
+        return $this->fin_status;
+    }
+
+    public function setFulfillmentStatus(string $ffmt_status): self
+    {
+
+        $this->ffmt_status = $ffmt_status;
+
+        return $this;
+    }
+
+    public function getFulfillmentStatus()
+    {
+        return $this->ffmt_status;
+    }
+
 
     public function execute()
     {
