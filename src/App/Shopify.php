@@ -58,6 +58,27 @@ class Shopify
      */
     private $per_page = null;
 
+    /**
+     * Amount for cancelling order
+     *
+     * @var float
+     */
+    private $amount = 0;
+
+    /**
+     * Currency type when cancelling order
+     *
+     * @var string
+     */
+    private $currency = 'PHP';
+
+    /**
+     * List of blacklisted email domains
+     *
+     * @var array
+     */
+    private $blacklisted_email_domains = [];
+
     public function __construct(
         ShopifyConfigContextInterface $configContext,
         Redirect $redirect
@@ -203,6 +224,54 @@ class Shopify
     }
 
     /**
+     * Set amount for order cancellation
+     * 
+     * @param int|float $amount
+     * 
+     * @return $this
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = number_format($amount, 2);
+
+        return $this;
+    }
+
+    /**
+     * Get amount of order to be cancelled
+     *
+     * @return float
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * Set currency of order to be cancelled
+     *
+     * @param string $currency
+     * 
+     * @return $this
+     */
+    public function setCurrency(string $currency)
+    {
+        $this->currency = $currency;
+
+        return $this;
+    }
+
+    /**
+     * Get currency type of order to be cancelled
+     *
+     * @return string
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
      * Set shop access token
      *
      * @return void
@@ -236,6 +305,28 @@ class Shopify
         $this->data = $value;
 
         return $this;
+    }
+
+    /**
+     * Set email domains that cannot be allowed to register(customer)
+     *
+     * @return $this
+     */
+    public function setBlocklistedEmailDomains(...$args)
+    {
+        $this->blacklisted_email_domains = $args;
+
+        return $this;
+    }
+
+    /**
+     * Get list of blacklisted email domains
+     *
+     * @return array
+     */
+    public function getBlocklistedEmailDomains(): array
+    {
+        return $this->blacklisted_email_domains;
     }
 
     /**

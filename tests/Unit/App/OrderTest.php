@@ -154,4 +154,62 @@ class OrderTest extends \Tests\TestCase
                                   ->execute();
         $this->assertObjectHasAttribute('order', $response);
     }
+
+    public function testOpenOrder()
+    {
+        $this->curl->shouldReceive('to')
+                   ->with(\Mockery::any())
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('withHeaders')
+                   ->with(\Mockery::any())
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('withData')
+                   ->with(\Mockery::any())
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('withResponseHeaders')
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('returnResponseObject')
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('post')
+                   ->andReturn(json_decode(json_encode([
+                       'content' => file_get_contents(__DIR__ . '/_files/post.close.order.response.json'),
+                       'status' => 200,
+                   ])));
+
+        $response = $this->shopify->setAction(new \Crazymeeks\App\Resource\Action\ReOpenOrder($this->curl))
+                                  ->setResourceId('450789469')
+                                  ->setShopUrl('test.myshopify.com')
+                                  ->setAccessToken('access_token')
+                                  ->execute();
+        $this->assertObjectHasAttribute('order', $response);
+    }
+
+    public function testCancelOrder()
+    {
+        $this->curl->shouldReceive('to')
+                   ->with(\Mockery::any())
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('withHeaders')
+                   ->with(\Mockery::any())
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('withData')
+                   ->with(\Mockery::any())
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('withResponseHeaders')
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('returnResponseObject')
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('post')
+                   ->andReturn(json_decode(json_encode([
+                       'content' => file_get_contents(__DIR__ . '/_files/post.close.order.response.json'),
+                       'status' => 200,
+                   ])));
+
+        $response = $this->shopify->setAction(new \Crazymeeks\App\Resource\Action\CancelOrder($this->curl))
+                                  ->setResourceId('450789469')
+                                  ->setShopUrl('test.myshopify.com')
+                                  ->setAccessToken('access_token')
+                                  ->execute();
+        $this->assertObjectHasAttribute('order', $response);
+    }
 }
