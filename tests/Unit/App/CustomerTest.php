@@ -58,7 +58,7 @@ class CustomerTest extends \Tests\TestCase
         $response = $this->shopify->setAction(new \Crazymeeks\App\Resource\Action\CreateCustomer($this->curl))
                                   ->setShopUrl('test.myshopify.com')
                                   ->setAccessToken('access_token')
-                                  ->setBlocklistedEmailDomains('@free.com')
+                                  ->setWhitelistedEmailDomains('@example.com')
                                   ->setData([
                                       'first_name' => 'John',
                                       'last_name' => 'Doe',
@@ -72,7 +72,7 @@ class CustomerTest extends \Tests\TestCase
         $this->assertObjectHasAttribute('customer', $response);
     }
 
-    public function testBlocklistedEmailDomain()
+    public function testWhitelistedEmailDomain()
     {
         
         $this->expectException(\Crazymeeks\App\Exceptions\CustomerException::class);
@@ -98,7 +98,7 @@ class CustomerTest extends \Tests\TestCase
         $this->shopify->setAction(new \Crazymeeks\App\Resource\Action\CreateCustomer($this->curl))
                                   ->setShopUrl('test.myshopify.com')
                                   ->setAccessToken('access_token')
-                                  ->setBlocklistedEmailDomains('@free.com', '@example.com')
+                                  ->setWhitelistedEmailDomains('@free.com')
                                   ->setData([
                                       'first_name' => 'John',
                                       'last_name' => 'Doe',

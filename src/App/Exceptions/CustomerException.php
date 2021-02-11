@@ -9,8 +9,8 @@ class CustomerException extends \Exception
         return new static("Unable to create customer because data is missing. Please make sure you call setData() method.");
     }
 
-    public static function blocklistedEmailDomain(string $domain)
+    public static function emailDomainNotAllowed(string $domain)
     {
-        return new static(sprintf('The email domain %s is blacklisted. Please contact your app developer.', $domain));
+        return new static(sprintf('The email domain %s is not allowed or not whitelisted. Please contact your app developer.', $domain));
     }
 }

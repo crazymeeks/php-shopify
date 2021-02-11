@@ -77,15 +77,15 @@ class Shopify
      *
      * @var array
      */
-    private $blacklisted_email_domains = [];
+    private $whitelisted_email_domains = [];
 
     public function __construct(
         ShopifyConfigContextInterface $configContext,
-        Redirect $redirect
+        Redirect $redirect = null
     )
     {
         $this->configContext = $configContext;
-        $this->redirect = $redirect;
+        $this->redirect = !$redirect ? new Redirect() : $redirect;
     }
 
     /**
@@ -312,9 +312,9 @@ class Shopify
      *
      * @return $this
      */
-    public function setBlocklistedEmailDomains(...$args)
+    public function setWhitelistedEmailDomains(...$args)
     {
-        $this->blacklisted_email_domains = $args;
+        $this->whitelisted_email_domains = $args;
 
         return $this;
     }
@@ -324,9 +324,9 @@ class Shopify
      *
      * @return array
      */
-    public function getBlocklistedEmailDomains(): array
+    public function getWhitelistedEmailDomains(): array
     {
-        return $this->blacklisted_email_domains;
+        return $this->whitelisted_email_domains;
     }
 
     /**

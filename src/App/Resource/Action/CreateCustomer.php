@@ -27,14 +27,14 @@ class CreateCustomer extends BaseAction
         
         $host .= parent::updateEndpoint($app, $endpoint);
         $customerData = $app->getData();
-        $blockListedEmailDomains = $app->getBlocklistedEmailDomains();
+        $whiteListedEmailDomains = $app->getWhitelistedEmailDomains();
         if (!$customerData) {
             throw \Crazymeeks\App\Exceptions\CustomerException::invalidData();
         }
         $domain = '@' . substr(strrchr($customerData['email'], "@"), 1);
         
-        if (in_array($domain, $blockListedEmailDomains)) {
-            throw \Crazymeeks\App\Exceptions\CustomerException::blocklistedEmailDomain($domain);
+        if (count($whiteListedEmailDomains) > 0 && !in_array($domain, $whiteListedEmailDomains)) {
+            throw \Crazymeeks\App\Exceptions\CustomerException::emailDomainNotAllowed($domain);
         }
         
         $response = $this->curl->to($host)
