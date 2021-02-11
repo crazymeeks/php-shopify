@@ -9,10 +9,8 @@ use Crazymeeks\App\Resource\Action\BaseAction;
 use Crazymeeks\App\Contracts\ShopifyConfigContextInterface;
 
 
-class CreateCustomer extends BaseAction
+class GetCustomer extends BaseAction
 {
-
-    
 
 
     /**
@@ -22,33 +20,25 @@ class CreateCustomer extends BaseAction
     {
         $access_token = $app->getAccessToken();
         $host = $app->getShopUrl();
+        $id = $app->getResourceId();
         
-        $endpoint = sprintf('/admin/api/%s/customers.json', $configContext->getVersion());
+        if (!$id) {
+            throw \Crazymeeks\App\Exceptions\CustomerException::retrieveSingleCustomerIdRequired();
+        }
+
+        $endpoint = sprintf('/admin/api/%s/customers/%s.json', $configContext->getVersion(), $id);
         
         $host .= parent::updateEndpoint($app, $endpoint);
-        $customerData = $app->getData();
-        $whiteListedEmailDomains = $app->getWhitelistedEmailDomains();
-        if (!$customerData) {
-            throw \Crazymeeks\App\Exceptions\CustomerException::invalidData();
-        }
-        $domain = '@' . substr(strrchr($customerData['email'], "@"), 1);
-        
-        if (count($whiteListedEmailDomains) > 0 && !in_array($domain, $whiteListedEmailDomains)) {
-            throw \Crazymeeks\App\Exceptions\CustomerException::emailDomainNotAllowed($domain);
-        }
         
         $response = $this->curl->to($host)
                          ->withHeaders([
                             'X-Shopify-Access-Token: ' . $access_token
                          ])
-                         ->withData([
-                             'customer' => $customerData
-                         ])
                          ->withResponseHeaders()
                          ->returnResponseObject()
-                         ->post();
+                         ->get();
         
-        if ($response->status == 201) {
+        if ($response->status == 200) {
             $collection = json_decode($response->content);
             return parent::addPaginateLinks($collection, $response);
         }

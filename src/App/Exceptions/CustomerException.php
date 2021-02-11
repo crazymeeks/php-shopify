@@ -13,4 +13,9 @@ class CustomerException extends \Exception
     {
         return new static(sprintf('The email domain %s is not allowed or not whitelisted. Please contact your app developer.', $domain));
     }
+
+    public static function retrieveSingleCustomerIdRequired()
+    {
+        return new static("Customer id is required.");
+    }
 }
