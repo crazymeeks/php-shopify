@@ -43,7 +43,7 @@ class UpdateScriptTag extends BaseAction
                          ])
                          ->withResponseHeaders()
                          ->returnResponseObject()
-                         ->post();
+                         ->put();
         if ($response->status == 201) {
             $collection = json_decode($response->content);
             

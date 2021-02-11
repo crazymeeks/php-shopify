@@ -217,9 +217,10 @@ class Shopify
         }
 
         $parseUrl = parse_url($host);
+        $path = isset($parseUrl['path']) ? str_replace('//', '', $parseUrl['path']) : $parseUrl['host'];
 
-        $host = "https://" . (str_replace('www.', '', $parseUrl['host']));
-
+        $host = "https://" . (str_replace('www.', '', $path));
+        
         return $host;
     }
 

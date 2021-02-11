@@ -107,7 +107,7 @@ class ScriptTagTest extends \Tests\TestCase
 
         $response = $this->shopify->setAction(new \Crazymeeks\App\Resource\Action\GetScriptTags($this->curl))
                                   ->setData('https://myweb.com/script.js')
-                                  ->setShopUrl('test.myshopify.com')
+                                  ->setShopUrl('https://test.myshopify.com')
                                   ->setAccessToken('access_token')
                                   ->execute();
         
@@ -134,7 +134,7 @@ class ScriptTagTest extends \Tests\TestCase
                    ->andReturnSelf();
         $this->curl->shouldReceive('returnResponseObject')
                    ->andReturnSelf();
-        $this->curl->shouldReceive('post')
+        $this->curl->shouldReceive('put')
                    ->andReturn(json_decode(json_encode([
                        'content' =>json_encode([
                            'script_tag' => [
