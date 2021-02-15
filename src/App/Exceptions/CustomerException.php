@@ -11,7 +11,7 @@ class CustomerException extends \Exception
 
     public static function emailDomainNotAllowed(string $domain)
     {
-        return new static(sprintf('The email domain %s is not allowed or not whitelisted. Please contact your app developer.', $domain));
+        return new static(sprintf('The email domain %s is not allowed or not whitelisted', $domain));
     }
 
     public static function retrieveSingleCustomerIdRequired()
