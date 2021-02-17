@@ -34,7 +34,7 @@ abstract class BaseAction implements ActionInterface
     /**
      * @implemented
      */
-    public function setEndpoint(string $endpoint): self
+    public function setEndpoint(string $endpoint)
     {
         $this->endpoint = $endpoint;
 

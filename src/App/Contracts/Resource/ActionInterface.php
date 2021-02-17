@@ -27,7 +27,7 @@ interface ActionInterface
      * 
      * @return $this
      */
-    public function setEndpoint(string $endpoint): self;
+    public function setEndpoint(string $endpoint);
 
     /**
      * Get shopify's api endpoint
