@@ -52,7 +52,7 @@ class CustomerTest extends \Tests\TestCase
         $this->curl->shouldReceive('post')
                    ->andReturn(json_decode(json_encode([
                        'content' => file_get_contents(__DIR__ . '/_files/customer/create.customer.response.json'),
-                       'status' => 200,
+                       'status' => 201,
                    ])));
 
         $response = $this->shopify->setAction(new \Crazymeeks\App\Resource\Action\CreateCustomer($this->curl))
@@ -69,6 +69,7 @@ class CustomerTest extends \Tests\TestCase
                                       'password_confirmation' => 'test123123',
                                   ])
                                   ->execute();
+                                  
         $this->assertObjectHasAttribute('customer', $response);
     }
 
