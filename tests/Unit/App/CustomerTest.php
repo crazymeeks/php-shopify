@@ -58,7 +58,7 @@ class CustomerTest extends \Tests\TestCase
         $response = $this->shopify->setAction(new \Crazymeeks\App\Resource\Action\CreateCustomer($this->curl))
                                   ->setShopUrl('test.myshopify.com')
                                   ->setAccessToken('access_token')
-                                  ->setWhitelistedEmailDomains('@example.com')
+                                  ->setWhitelistedEmailDomains(['@example.com', '@gmail.com'])
                                   ->setData([
                                       'first_name' => 'John',
                                       'last_name' => 'Doe',
@@ -155,7 +155,7 @@ class CustomerTest extends \Tests\TestCase
         $this->shopify->setAction(new \Crazymeeks\App\Resource\Action\CreateCustomer($this->curl))
                                   ->setShopUrl('test.myshopify.com')
                                   ->setAccessToken('access_token')
-                                  ->setWhitelistedEmailDomains('@free.com')
+                                  ->setWhitelistedEmailDomains(['@free.com'])
                                   ->setData([
                                       'first_name' => 'John',
                                       'last_name' => 'Doe',

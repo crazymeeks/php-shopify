@@ -315,8 +315,9 @@ class Shopify
      */
     public function setWhitelistedEmailDomains(...$args)
     {
+        
         $this->whitelisted_email_domains = $args;
-
+        
         return $this;
     }
 
