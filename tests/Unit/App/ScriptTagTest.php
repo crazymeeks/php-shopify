@@ -106,7 +106,6 @@ class ScriptTagTest extends \Tests\TestCase
                    ])));
 
         $response = $this->shopify->setAction(new \Crazymeeks\App\Resource\Action\GetScriptTags($this->curl))
-                                  ->setData('https://myweb.com/script.js')
                                   ->setShopUrl('https://test.myshopify.com')
                                   ->setAccessToken('access_token')
                                   ->execute();

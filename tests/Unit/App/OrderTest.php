@@ -119,7 +119,7 @@ class OrderTest extends \Tests\TestCase
                        'status' => 200,
                    ])));
 
-        $response = $this->shopify->setAction(new \Crazymeeks\App\Resource\Action\GetOrder($this->curl))
+        $response = $this->shopify->setAction(new \Crazymeeks\App\Resource\Action\GetOrderCount($this->curl))
                                   ->setShopUrl('test.myshopify.com')
                                   ->setAccessToken('access_token')
                                   ->execute();
