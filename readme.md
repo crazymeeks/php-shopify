@@ -106,8 +106,8 @@ $shopify->install(new InstallContext(), 'test.myshopify.com');
 When your app is installed into shopify, shopify will load your app into  
 its Dashboard(iframed) along with these important parameters: `hmac`, `code`, `shop`, `timestamp`.  
 You need these parameters in order to get an access token for your app.  
-You are required to pass this in the `setData()` method of `Crazymeeks\App\Shopify::class`.  
-We will set `\Crazymeeks\App\Resource\Action\GetShopAccessToken:class` as our action.
+You are required to pass these in the `setData()` method of `Crazymeeks\App\Shopify::class`.  
+We will use `\Crazymeeks\App\Resource\Action\GetShopAccessToken:class` as our action.
 ```php
 $shopify = new \Crazymeeks\App\Shopify(new ConfigContext());
 $response = $shopify->setAction(new \Crazymeeks\App\Resource\Action\GetShopAccessToken())
